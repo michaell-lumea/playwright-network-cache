@@ -151,7 +151,7 @@ export class CacheRouteHandler {
 
   private matchHttpStatus(response: APIResponse) {
     const { httpStatus } = this.options;
-    return httpStatus ? response.status() === httpStatus : response.ok();
+    return httpStatus ? toArray(httpStatus).includes(response.status()) : response.ok();
   }
 
   private storeLastModified() {

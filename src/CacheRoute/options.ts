@@ -10,7 +10,7 @@ export type CacheRouteOptions = {
   /* Additional matching function for request */
   match?: (req: Request) => boolean | void;
   /* Match responses with particular HTTP status */
-  httpStatus?: number;
+  httpStatus?: number | number[];
   /* Cache time to live (in minutest) */
   ttlMinutes?: number;
   /* Request overrides when making real call */
@@ -32,7 +32,7 @@ export type BuildCacheDirArg = {
   pathname: string;
   httpMethod: string;
   extraDir?: string[];
-  httpStatus?: number;
+  httpStatus?: number | number[];
   req: Request;
 };
 
