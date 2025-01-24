@@ -136,7 +136,7 @@ export class CacheRouteHandler {
       pathname,
       httpMethod: this.req.method(),
       extraDir,
-      httpStatus: this.options.httpStatus,
+      httpStatus: this.options.httpStatus ? toArray(this.options.httpStatus).join('-') : undefined,
       req: this.req,
     };
 

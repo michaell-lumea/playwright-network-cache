@@ -24,7 +24,7 @@ export type CacheRouteOptions = {
   /* Disable caching, always request from server and update cached files */
   forceUpdate?: boolean;
   /** Function to build cache dir for fine-grained control */
-  buildCacheDir?: (ctx: BuildCacheDirArg) => (string | string[] | number | undefined)[];
+  buildCacheDir?: (ctx: BuildCacheDirArg) => (string | string[] | number | number[] | undefined)[];
 };
 
 export type BuildCacheDirArg = {
@@ -32,7 +32,7 @@ export type BuildCacheDirArg = {
   pathname: string;
   httpMethod: string;
   extraDir?: string[];
-  httpStatus?: number | number[];
+  httpStatus?: string;
   req: Request;
 };
 
