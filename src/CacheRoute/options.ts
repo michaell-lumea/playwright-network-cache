@@ -23,6 +23,8 @@ export type CacheRouteOptions = {
   noCache?: boolean;
   /* Disable caching, always request from server and update cached files */
   forceUpdate?: boolean;
+  /* Force cache usage, even if expired, ignores files not found */
+  forceCacheUse?: boolean;
   /** Function to build cache dir for fine-grained control */
   buildCacheDir?: (ctx: BuildCacheDirArg) => (string | string[] | number | number[] | undefined)[];
 };

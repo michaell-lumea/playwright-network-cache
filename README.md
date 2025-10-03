@@ -573,9 +573,9 @@ Additional directory for cache files. Can be a string, array of strings, or a fu
 Function to add additional matching logic for requests. Returns `true` to cache, or `false` to skip.
 
 #### httpStatus
-`number`
+`number | number[]`
 
-Cache responses with the specified HTTP status code.
+Cache responses with the specified HTTP status code(s).
 
 #### ttlMinutes
 `number`
@@ -606,6 +606,11 @@ If `true`, disables caching and always makes requests to the server.
 `boolean`
 
 If `true`, always requests from the server and updates the cached files.
+
+#### forceCacheUse
+`boolean`
+
+If `true`, always use cache files and ignore cache file not found errors.
 
 #### buildCacheDir
 `(ctx: BuildCacheDirArg) => string[]`

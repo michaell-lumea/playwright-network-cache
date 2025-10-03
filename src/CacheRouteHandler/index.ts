@@ -31,7 +31,7 @@ export class CacheRouteHandler {
       return;
     }
 
-    const { noCache, forceUpdate } = this.options;
+    const { noCache, forceUpdate, forceCacheUse } = this.options;
 
     if (noCache) {
       const response = await this.fetchFromServer();
@@ -42,16 +42,28 @@ export class CacheRouteHandler {
     this.buildCacheDir();
     this.storeLastModified();
 
-    const useRealRequest = forceUpdate || this.isExpired();
-    const response = useRealRequest
-      ? await this.fetchFromServer() // prettier-ignore
-      : await this.fetchFromCache();
+    const useRealRequest = (forceUpdate || this.isExpired()) && !forceCacheUse;
 
-    if (useRealRequest && this.matchHttpStatus(response)) {
-      await this.saveResponse(response);
+    try {
+      const response = useRealRequest
+        ? await this.fetchFromServer() // prettier-ignore
+        : await this.fetchFromCache();
+
+      if (useRealRequest && this.matchHttpStatus(response)) {
+        await this.saveResponse(response);
+      }
+
+      await this.fulfillRoute(response);
+    } catch (e) {
+      const shouldIgnoreError = forceCacheUse && e.code === 'ENOENT';
+      if (shouldIgnoreError) {
+        debug(
+          `Ignoring missing cache file due to forceCacheUse: ${this.req.method()} ${this.req.url()}`,
+        );
+      } else {
+        throw e;
+      }
     }
-
-    await this.fulfillRoute(response);
   }
 
   private isRequestMatched() {
